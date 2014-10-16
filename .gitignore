@@ -3,6 +3,7 @@ templates/*
 *~
 .*.swp
 build/*
-
+*.kdev4
+.kdev4
 *autobuild-stamp
 

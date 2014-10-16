@@ -41,22 +41,20 @@ bool Task::startHook()
 }
 void Task::updateHook()
 {
-   float voltage_divider = 293/870.0;
- 
-   raw_io::Analog voltage_input;
-   while(_analog_input.read(voltage_input) == RTT::NewData)
-   {      
-   float real_voltage = voltage_input.data/voltage_divider;
-   
-   if(real_voltage>=1.5 && real_voltage<= 8.5)
-   {
-     _angle.write(base::Angle::fromRad(asin((real_voltage-5)/5)));
-   }
-   else
-       throw std::logic_error("Voltage outside linear range");
-   
-   }
-   
+    raw_io::Analog voltage_input;
+    while(_analog_input.read(voltage_input) == RTT::NewData)
+    {      
+        float real_voltage = voltage_input.data;
+
+        if(real_voltage>=1.5 && real_voltage<= 8.5)
+        {
+            _angle.write(base::Angle::fromRad(asin((real_voltage-5)/5)));
+        }
+        else
+            throw std::logic_error("Voltage outside linear range");
+
+    }
+
     TaskBase::updateHook();
 }
 void Task::errorHook()

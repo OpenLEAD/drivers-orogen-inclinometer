@@ -50,8 +50,6 @@ void Task::updateHook()
         {
             _angle.write(base::Angle::fromRad(asin((real_voltage-5)/5)));
         }
-        else
-            throw std::logic_error("Voltage outside linear range");
 
     }
 

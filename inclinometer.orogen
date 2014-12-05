@@ -31,7 +31,7 @@ task_context "Task" do
 
     # A configuration property (here, a std::string). Its value can be retrieved
     # in the C++ code with # _config_value.get() and _config_value.set(new_value).
-    property "config_value", "/std/string"
+    property "direction_flag", "bool"
 
     # An input port, i.e. an object from which the component gets data from
     # other components' outputs
@@ -47,6 +47,9 @@ task_context "Task" do
     # Data can be written using _output.write(value). _output.connected() returns
     # if this output is connected to an input or not.
     output_port "angle", "base/Angle"
+    
+    #RigidBodySample representing the roll measurement
+    output_port 'roll_samples', '/base/samples/RigidBodyState'
 
     # If you want that component's updateHook() to be executed when the "input"
     # port gets data, uncomment this and comment the 'periodic' line

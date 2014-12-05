@@ -3,6 +3,7 @@
 #include "Task.hpp"
 #include <math.h>
 #include <raw_io/Analog.hpp>
+#include <base/samples/RigidBodyState.hpp>
 
 using namespace inclinometer;
 
@@ -45,12 +46,18 @@ void Task::updateHook()
     while(_analog_input.read(voltage_input) == RTT::NewData)
     {      
         float real_voltage = voltage_input.data;
-
-        if(real_voltage>=1.5 && real_voltage<= 8.5)
-        {
-            _angle.write(base::Angle::fromRad(asin((real_voltage-5)/5)));
-        }
-
+	double inclination = asin((real_voltage-5)/5.0);
+	if(!_direction_flag.get())
+	  inclination = -1*inclination;
+	
+	_angle.write(base::Angle::fromRad(inclination));
+	
+	//TODO add property to choose the axis sampled?
+	base::samples::RigidBodyState roll_sample;       
+        roll_sample.position =  Eigen::Vector3d::Zero();
+        roll_sample.orientation = Eigen::AngleAxisd( inclination,  Eigen::MatrixBase<base::Vector3d>::UnitX());
+        roll_sample.time = base::Time::now();
+       _roll_samples.write(roll_sample);
     }
 
     TaskBase::updateHook();

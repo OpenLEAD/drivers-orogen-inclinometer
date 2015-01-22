@@ -50,8 +50,11 @@ task_context "Task" do
     # Data can be written using _output.write(value). _output.connected() returns
     # if this output is connected to an input or not.
     output_port "angle", "base/Angle"
+
+    property 'world_frame', '/std/string', 'world'
+    property 'body_frame', '/std/string', 'body'
     
-    #RigidBodySample representing the roll measurement
+    # RigidBodySample representing the roll measurement
     output_port 'roll_samples', '/base/samples/RigidBodyState'
 
     # If you want that component's updateHook() to be executed when the "input"

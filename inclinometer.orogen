@@ -29,9 +29,12 @@ task_context "Task" do
     # transition to a setup where all components use a configuration step.
     needs_configuration
 
-    # A configuration property (here, a std::string). Its value can be retrieved
-    # in the C++ code with # _config_value.get() and _config_value.set(new_value).
+    # Flag to change the direction of rotation in case it is mounted in the wrong direction
     property "direction_flag", "bool"
+    
+    # Offset of the mounting in radians
+    property "offset","int", 0
+    
 
     # An input port, i.e. an object from which the component gets data from
     # other components' outputs

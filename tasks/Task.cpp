@@ -46,14 +46,18 @@ void Task::updateHook()
     while(_analog_input.read(voltage_input) == RTT::NewData)
     {      
         float real_voltage = voltage_input.data;
-	double inclination = asin((real_voltage-5)/5.0);
+	double angle_read = asin((real_voltage-5)/5.0);
 	if(!_direction_flag.get())
-	  inclination = -1*inclination;
+	  angle_read = -1*angle_read;
+	
+	double inclination = angle_read + _offset.get();
 	
 	_angle.write(base::Angle::fromRad(inclination));
 	
 	//TODO add property to choose the axis sampled?
 	base::samples::RigidBodyState roll_sample;       
+        roll_sample.sourceFrame = _body_frame.get();
+        roll_sample.targetFrame = _world_frame.get();
         roll_sample.position =  Eigen::Vector3d::Zero();
         roll_sample.orientation = Eigen::AngleAxisd( inclination,  Eigen::MatrixBase<base::Vector3d>::UnitX());
         roll_sample.time = base::Time::now();

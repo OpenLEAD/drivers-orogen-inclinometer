@@ -33,7 +33,7 @@ task_context "Task" do
     property "direction_flag", "bool"
     
     # Offset of the mounting in radians
-    property "offset","int", 0
+    property "offset","double", 0
     
 
     # An input port, i.e. an object from which the component gets data from

@@ -43,9 +43,11 @@ bool Task::startHook()
 void Task::updateHook()
 {
     raw_io::Analog voltage_input;
-    while(_analog_input.read(voltage_input) == RTT::NewData)
-    {      
-        float real_voltage = voltage_input.data;
+
+    if(_analog_input.read(voltage_input) != RTT::NewData)
+        TaskBase::updateHook();
+
+    float real_voltage = voltage_input.data;
 	double angle_read = asin((real_voltage-5)/5.0);
 	if(!_direction_flag.get())
 	  angle_read = -1*angle_read;
@@ -62,7 +64,6 @@ void Task::updateHook()
     roll_sample.orientation = Eigen::AngleAxisd( inclination,  Eigen::MatrixBase<base::Vector3d>::UnitX());
     roll_sample.time = voltage_input.time;
     _roll_samples.write(roll_sample);
-    }
 
     TaskBase::updateHook();
 }

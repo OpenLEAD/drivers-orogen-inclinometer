@@ -56,12 +56,12 @@ void Task::updateHook()
 	
 	//TODO add property to choose the axis sampled?
 	base::samples::RigidBodyState roll_sample;       
-        roll_sample.sourceFrame = _body_frame.get();
-        roll_sample.targetFrame = _world_frame.get();
-        roll_sample.position =  Eigen::Vector3d::Zero();
-        roll_sample.orientation = Eigen::AngleAxisd( inclination,  Eigen::MatrixBase<base::Vector3d>::UnitX());
-        roll_sample.time = base::Time::now();
-       _roll_samples.write(roll_sample);
+    roll_sample.sourceFrame = _body_frame.get();
+    roll_sample.targetFrame = _world_frame.get();
+    roll_sample.position =  Eigen::Vector3d::Zero();
+    roll_sample.orientation = Eigen::AngleAxisd( inclination,  Eigen::MatrixBase<base::Vector3d>::UnitX());
+    roll_sample.time = voltage_input.time;
+    _roll_samples.write(roll_sample);
     }
 
     TaskBase::updateHook();

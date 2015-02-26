@@ -51,8 +51,8 @@ void Task::updateHook()
 	  angle_read = -1*angle_read;
 	
 	double inclination = angle_read + _offset.get();
-	
-	_angle.write(base::Angle::fromRad(inclination));
+        base::Angle angle = base::Angle::fromRad(inclination);
+	_angle.write(angle);
 	
 	//TODO add property to choose the axis sampled?
 	base::samples::RigidBodyState roll_sample;       
@@ -60,7 +60,7 @@ void Task::updateHook()
         roll_sample.targetFrame = _world_frame.get();
         roll_sample.position =  Eigen::Vector3d::Zero();
         roll_sample.orientation = Eigen::AngleAxisd( inclination,  Eigen::MatrixBase<base::Vector3d>::UnitX());
-        roll_sample.time = base::Time::now();
+        roll_sample.time = voltage_input.time;
        _roll_samples.write(roll_sample);
     }
 
